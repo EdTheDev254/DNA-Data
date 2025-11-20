@@ -12,9 +12,14 @@ if os.path.exists(image_path):
         # Load the image
         img = Image.open(image_path)
         print(f"Successfully loaded {image_path}")
-        print(f"Format: {img.format}")
-        print(f"Size: {img.size}")
-        print(f"Mode: {img.mode}")
+        
+        # Convert image to binary data (raw pixel values)
+        pixel_data = img.tobytes()
+        
+        # Convert to a string of 0s and 1s
+        binary_data = ''.join(format(byte, '08b') for byte in pixel_data)
+        
+        print(f"Binary data generated. Length: {len(binary_data)} bits")
         
         # Optional: Show the image
         # img.show()
