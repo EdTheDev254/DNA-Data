@@ -8,16 +8,17 @@ image_path = "profile.jpg"
 
 # Check if file exists
 if os.path.exists(image_path):
+
     try:
-        # Load the image
-        img = Image.open(image_path)
-        print(f"Successfully loaded {image_path}")
+        # Read the raw file bytes directly
+        with open(image_path, "rb") as f:
+            raw_bytes = f.read()
+            
+        print(f"Successfully read {image_path}")
+        print(f"First byte: {hex(raw_bytes[0])} (Should be 0xff for JPEG)")
         
-        # Convert image to binary data (raw pixel values)
-        pixel_data = img.tobytes()
-        
-        # Convert to a string of 0s and 1s
-        binary_data = ''.join(format(byte, '08b') for byte in pixel_data)
+        # Convert raw bytes to a string of 0s and 1s
+        binary_data = ''.join(format(byte, '08b') for byte in raw_bytes)
         
         print(f"Binary data generated. Length: {len(binary_data)} bits")
         
