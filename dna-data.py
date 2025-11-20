@@ -21,8 +21,25 @@ if os.path.exists(image_path):
         
         print(f"Binary data generated. Length: {len(binary_data)} bits")
         
-        # Optional: Show the image
-        # img.show()
+        # DNA Mapping
+        binary_to_dna = {
+            '00': 'A',
+            '01': 'C',
+            '10': 'G',
+            '11': 'T'
+        }
+        
+        dna_sequence = []
+        # Process 2 bits at a time
+        for i in range(0, len(binary_data), 2):
+            chunk = binary_data[i:i+2]
+            if len(chunk) == 2:
+                dna_sequence.append(binary_to_dna[chunk])
+                
+        dna_string = "".join(dna_sequence)
+        
+        print(f"DNA Sequence generated. Length: {len(dna_string)} bases")
+        print(f"Sample (first 100 bases): {dna_string[:100]}...")
         
     except Exception as e:
         print(f"Error loading image: {e}")
