@@ -42,7 +42,30 @@ if os.path.exists(image_path):
         print(f"DNA Sequence generated. Length: {len(dna_string)} bases")
         print(f"Sample (first 100 bases): {dna_string[:100]}...")
         
+        # Generate PDF
+        from fpdf import FPDF
+        
+        class PDF(FPDF):
+            def header(self):
+                self.set_font('Courier', 'B', 12)
+                self.cell(0, 10, 'CONFIDENTIAL // DNA SEQUENCE DATA', 0, 1, 'C')
+                self.ln(10)
+                
+            def footer(self):
+                self.set_y(-15)
+                self.set_font('Courier', 'I', 8)
+                self.cell(0, 10, f'Page {self.page_no()}', 0, 0, 'C')
+                
+        pdf = PDF()
+        pdf.add_page()
+        pdf.set_font("Courier", size=10)
+        pdf.multi_cell(0, 5, dna_string)
+        
+        output_filename = "dna_sequence.pdf"
+        pdf.output(output_filename)
+        print(f"PDF generated successfully: {output_filename}")
+        
     except Exception as e:
-        print(f"Error loading image: {e}")
+        print(f"Error: {e}")
 else:
     print(f"Image not found at {image_path}")
